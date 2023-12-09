@@ -1,0 +1,5 @@
+[1]. Renamed testRoutes to sandboxRoutes.
+[2]. FormControl component converted to shipable component by localazing all the dependencies it has.
+[3]. Removed atom, molecule and organism structure of designing components. 
+[4]. Removed proxy and changed services to work with one parameter (object).
+[5]. ui folder has two folders _lib and pages. Pages will have the web pages that will sit at the hier level in DOM tree and every other components will go under _lib folder in their respective logical folders

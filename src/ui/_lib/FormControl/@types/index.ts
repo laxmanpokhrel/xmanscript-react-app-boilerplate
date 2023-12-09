@@ -1,0 +1,15 @@
+export type FormControlTypes =
+  | 'dropDown'
+  | 'comboBox'
+  | 'checkBoxWithLabel'
+  | 'input'
+  | 'upload'
+  | 'radio'
+  | 'textArea'
+  | 'checkBox'
+  | 'checkboxGroup'
+  | 'datePicker'
+  | 'iterator'
+  | 'customIterator'
+  | 'editor'
+  | 'dragAndDrop';

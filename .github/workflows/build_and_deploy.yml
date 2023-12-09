@@ -1,0 +1,141 @@
+name: Build and Deploy React Starter Kit TypeScript Frontend CICD
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    
+env:
+  AUTHOR: naxa
+  AWS_REGION: ap-south-1
+  PROJECT_NAME: React-Starter-Kit
+  
+jobs:          
+  build:
+    name: Build Static Files
+    runs-on: self-hosted
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+
+      - name: Install yarn
+        run: npm install -g yarn
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Write Environment Variables
+        id: write_env
+        run: |
+          case "${{ github.ref }}" in
+          refs/heads/develop)
+          echo '
+          # Write Development Environment
+          ' > .env
+          ;;
+          refs/heads/staging)
+          echo '
+          # Write Staging Environment
+          ' > .env
+          ;;
+          refs/heads/master)
+          echo '
+          # Write Production Environment
+          ' > .env
+          ;;
+          esac
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate build
+        run: |
+          yarn build
+        env:
+          NODE_OPTIONS: '--max_old_space_size=8192'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload Dist as Artifacts
+        run: |
+          export ZIP_NAME=${{ env.PROJECT_NAME }}-${{ github.run_id }}-${{ github.run_attempt }}.zip
+          export S3_BUILD_PATH=s3://naxa-ci-artifacts/${{ env.PROJECT_NAME }}-${{ github.run_id }}/$ZIP_NAME
+          zip -r $ZIP_NAME ./dist
+          aws s3 cp $ZIP_NAME $S3_BUILD_PATH
+
+      - name: Clean up Yarn
+        if: always()
+        run: npm uninstall -g yarn
+
+  deploy:
+    name: Deploy static files
+    needs:
+      - build
+    if: ${{ github.ref == 'refs/heads/master' }}
+    runs-on: self-hosted
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Get Artifacts
+        run: |
+          export ZIP_NAME=forc-frontend-typescript-${{ github.run_id }}-${{ github.run_attempt }}.zip
+          export S3_BUILD_PATH=s3://naxa-ci-artifacts/forc-frontend-typescript-${{ github.run_id }}/$ZIP_NAME
+          aws s3 cp $S3_BUILD_PATH $ZIP_NAME
+          unzip $ZIP_NAME
+
+      - name: Get VM SSH host and user
+        id: get_vm_conf
+        run: |
+            case "${{ github.ref }}" in
+            refs/heads/master)
+                export SERVER_IP=167.71.229.214
+                export SERVER_USERNAME=devops
+                export PROJECT_PATH=/srv/Projects/NAXA-Boilerplate-Test/react-starter-kit/dist
+                ;;      
+            esac
+            echo "SERVER_IP=${SERVER_IP}" >> $GITHUB_OUTPUT
+            echo "SERVER_USERNAME=${SERVER_USERNAME}" >> $GITHUB_OUTPUT
+            echo "PROJECT_PATH=${PROJECT_PATH}" >> $GITHUB_OUTPUT
+
+      - name: Configure SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 400 ~/.ssh/id_rsa
+          ssh-keyscan ${{ steps.get_vm_conf.outputs.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: copy static files
+        run: |
+          scp -r ./dist/* ${{ steps.get_vm_conf.outputs.SERVER_USERNAME }}@${{ steps.get_vm_conf.outputs.SERVER_IP }}:${{ steps.get_vm_conf.outputs.PROJECT_PATH }}
+          echo "Build Pass"
+
+      - name: Cleanup
+        run: |
+          chmod 666 ~/.ssh/id_rsa
+          rm ~/.ssh/id_rsa

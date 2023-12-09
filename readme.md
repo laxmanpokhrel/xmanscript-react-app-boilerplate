@@ -1,3 +1,5 @@
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 # Getting Started with the Starter Kit
 
 ## Preparing Your Environment
@@ -18,7 +20,7 @@ Before you start working with this kit, it's essential to clean up any unnecessa
 
 4. If you encounter an error on the "/dashboard" route, consider commenting out the proxy setup part in the `vite.config.ts` file.
 
-## Folder Structure
+<!-- <!-- ## Folder Structure
 
 - [API](./src/api/readme.md) - API documentation for the project.
 
@@ -40,7 +42,7 @@ Before you start working with this kit, it's essential to clean up any unnecessa
 
   - [Pages](./src/ui/pages/readme.md) - Group of Templates.
 
-  - [CustomComponents](./src/ui/customComponents/readme.md) - Custom Components.
+  - [CustomComponents](./src/ui/customComponents/readme.md) - Custom Components. 
 
 ## Example: Adding a shadcn component (select component - [link](https://ui.shadcn.com/docs/components/select))
 
@@ -54,7 +56,7 @@ Specify the path as `./src/ui/atoms/common/.`
 Make sure to:
 * Resolve all classes with tailwind prefix.
 * Replace classes with color variables with project-specific color variables.
-* Add any missing dependencies if npx fails to install them automatically, e.g., @radix-ui/react-select.
+* Add any missing dependencies if npx fails to install them automatically, e.g., @radix-ui/react-select. --> 
 
 ### Husky Disabled Warning
 If you encounter a Husky disabled warning on your device, please run the following two commands in your terminal:

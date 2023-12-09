@@ -5,7 +5,7 @@
   /* outline: 1px solid red; */
 }
 /* body {
-  @apply naxatw-bg-red-200;
+  @apply bg-red-200;
 } */
 
 .no-scrollbar::-webkit-scrollbar {

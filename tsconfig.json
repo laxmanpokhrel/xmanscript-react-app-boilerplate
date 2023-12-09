@@ -28,9 +28,6 @@
     "noUnusedParameters": true,
     "paths": {
       "@/*": ["./*"],
-      "@/primitives/*": ["./ui/_lib/primitives/*"],
-      "@/charts/*": ["./ui/_lib/charts/*"],
-      "@/radixComponents/*": ["./ui/_lib/radixComponents/*"],
       "@/templates/*": ["./ui/_lib/templates/*"],
       "@/pages/*": ["./ui/pages/*"],
       "@/assets/*": ["./assets/*"],
@@ -38,12 +35,9 @@
       "@/store/*": ["./store/*"],
       "@/constants/*": ["./constants/*"],
       "@/hooks/*": ["./hooks/*"],
-      "@/api/*": ["./api/*"],
       "@/schemas/*": ["./schemas/*"],
-      "@/services/*": ["./api/services/*"],
       "@/routes/*": ["./routes/*"],
-      "@/animations/*": ["./animations/*"],
-      "@/validation/*": ["./validation/*"]
+      "@/animations/*": ["./animations/*"]
     }
   },
   "include": [".eslintrc.cjs", "src", "src/**/*.ts"],

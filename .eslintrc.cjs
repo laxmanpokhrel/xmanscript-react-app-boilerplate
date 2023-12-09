@@ -3,12 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'airbnb',
-    // 'plugin:react/recommended',
-    // 'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['airbnb', 'plugin:prettier/recommended'],
   overrides: [],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -24,9 +19,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-console': 'error',
     'react/react-in-jsx-scope': 0,
-    // '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'react/jsx-props-no-spreading': 'off',
-    // 'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'react/forbid-prop-types': 'off',
     'react/prop-types': 'off',

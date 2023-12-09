@@ -1,8 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { ReactNode, Suspense } from 'react';
 import IRoute from '../@types';
-import useAuth from '@/hooks/useAuth';
-import Fallback from './Falback';
 import ProtectedRoute from './ProtectedRoute';
 
 interface IGenerateRouteParams {
@@ -15,8 +13,8 @@ interface IGenerateRouteParams {
  * array of objects that implement the `IRoute` interface) and `fallback` (an optional ReactNode). The
  * function returns a JSX element that wraps a `Routes` component from the `react-router-dom` library.
  */
-export default function generateRoutes({ routes, fallback = <Fallback /> }: IGenerateRouteParams) {
-  const { isAuthenticated } = useAuth();
+export default function generateRoutes({ routes, fallback = <div>Loading...</div> }: IGenerateRouteParams) {
+  const isAuthenticated = true;
 
   return (
     <Suspense fallback={fallback}>
@@ -24,7 +22,7 @@ export default function generateRoutes({ routes, fallback = <Fallback /> }: IGen
         {routes?.map((route) => {
           if (route.authenticated) {
             return (
-              <Route key={route.name} element={<ProtectedRoute isAuthenticated={isAuthenticated()} />}>
+              <Route key={route.name} element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
                 <Route
                   key={route.name}
                   path={route.path}

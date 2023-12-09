@@ -1,23 +1,16 @@
-import { hasErrorBoundary } from '@xmanscript/has-error-boundary';
-
 function Home(): JSX.Element {
   return (
-    <div className="home-page-template naxatw-flex naxatw-gap-4 naxatw-tracking-wider naxatw-flex-col naxatw-w-screen naxatw-h-screen naxatw-bg-black naxatw-text-white naxatw-select-none">
-      <div className="cover naxatw-w-[70%] naxatw-m-auto naxatw-flex naxatw-flex-col naxatw-gap-1">
-        <h1 className="first-letter:naxatw-text-8xl naxatw-text-2xl">
-          Hi developer, I am your React Starter Kit -
-          <p className="naxatw-bg-[#FFDC1C] naxatw-text-center naxatw-px-1 naxatw-inline naxatw-text-black naxatw-font-bold">
-            version-2.1
-          </p>
+    <div className="home-page-template flex h-screen w-screen select-none flex-col gap-4 bg-black tracking-wider text-white">
+      <div className="cover m-auto flex w-[70%] flex-col gap-1">
+        <h1 className="text-2xl first-letter:text-8xl">
+          Hi developer, I am your React boilerplate with Vite and TS -
+          <p className="inline bg-[#FFDC1C] px-1 text-center font-bold text-black">minimal</p>
         </h1>
-        <p className="naxatw-text-2xl naxatw-font-thin">Ready to dive deeper into my features?</p>
-        <div className="naxatw-text-[#FFDC1C] naxatw-font-light naxatw-text-xl naxatw-flex naxatw-justify-start naxatw-items-start naxatw-gap-4">
+        <p className="text-2xl font-thin">Ready to dive deeper into my features?</p>
+        <div className="flex items-start justify-start gap-4 text-xl font-light text-[#4b4a46]">
           Checkout my readme.md file
         </div>
-        <a
-          href="/sandbox"
-          className="naxatw-text-blue-400 naxatw-font-light naxatw-text-sm naxatw-underline naxatw-flex naxatw-justify-start naxatw-items-start naxatw-gap-4"
-        >
+        <a href="/sandbox" className=" flex items-start justify-start gap-4 text-sm font-light text-blue-400 underline">
           sandbox page &rarr;
         </a>
       </div>
@@ -25,4 +18,4 @@ function Home(): JSX.Element {
   );
 }
 
-export default hasErrorBoundary(Home);
+export default Home;

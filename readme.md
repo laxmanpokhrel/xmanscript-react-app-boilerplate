@@ -66,15 +66,3 @@ If you encounter a Husky disabled warning on your device, please run the followi
 chmod ug+x .husky/*
 chmod ug+x .git/hooks/*
 ```
-### Text editor
-If you don't want ckeditor in your application then, feel free to remove the packages installed related to ckeditor, and also remove the confisurations from `vite.config.js`.
-
-#### Remove this line from `ck-editor`
-
-`ckeditor5({ theme: require.resolve('@ckeditor/ckeditor5-theme-lark') }),`
-
-
-_NOTE: If any issues occurs during the development and you solved it, feel free to describe the issues and it's solution  here in this readme file._
-
-
-

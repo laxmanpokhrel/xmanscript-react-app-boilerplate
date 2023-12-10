@@ -2,10 +2,7 @@ import { defineConfig } from 'vite';
 import dotenv from 'dotenv';
 import { domToCodePlugin } from 'dom-to-code/vite';
 import react from '@vitejs/plugin-react';
-import { createRequire } from 'node:module';
 import tsconfigPaths from 'vite-tsconfig-paths';
-
-const require = createRequire(import.meta.url);
 
 dotenv.config();
 export default defineConfig({
